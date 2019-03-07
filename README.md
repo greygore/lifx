@@ -1,4 +1,6 @@
-![License-MIT](https://img.shields.io/github/license/greygore/lifx.svg?style=flat)
+[![GoDoc](http://godoc.org/github.com/greygore/lifx/lan?status.png)](http://godoc.org/github.com/greygore/lifx/lan)
+[![Go Report Card](https://goreportcard.com/badge/github.com/greygore/lifx)](https://goreportcard.com/report/github.com/greygore/lifx)
+[![License-MIT](https://img.shields.io/github/license/greygore/lifx.svg?style=flat)](https://github.com/greygore/lifx/blob/master/LICENSE)
 
 # LIFX
 
