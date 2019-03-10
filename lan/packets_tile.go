@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
+	"strings"
 )
 
 // message types
@@ -42,6 +43,10 @@ func (m *TileGetDeviceChain) UnmarshalBinary(data []byte) error {
 	}
 
 	return nil
+}
+
+func (m TileGetDeviceChain) String() string {
+	return "TileGetDeviceChain"
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -92,6 +97,16 @@ func (m *TileGetEffect) UnmarshalBinary(data []byte) error {
 	}
 
 	return nil
+}
+
+func (m TileGetEffect) String() string {
+	var s strings.Builder
+	s.WriteString("TileGetEffect:")
+
+	s.WriteString(fmt.Sprintf("Reserved0=%d", m.Reserved0))
+	s.WriteString(fmt.Sprintf(",Reserved1=%d", m.Reserved1))
+
+	return s.String()
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -147,6 +162,17 @@ func (m *TileGetState64) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
+func (m TileGetState64) String() string {
+	var s strings.Builder
+	s.WriteString("TileGetState64:")
+
+	s.WriteString(fmt.Sprintf("TileIndex=%d", m.TileIndex))
+	s.WriteString(fmt.Sprintf(",Length=%d", m.Length))
+	s.WriteString(fmt.Sprintf(",Rect=%s", m.Rect))
+
+	return s.String()
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 type TileSetEffect struct {
@@ -198,6 +224,17 @@ func (m *TileSetEffect) UnmarshalBinary(data []byte) error {
 	}
 
 	return nil
+}
+
+func (m TileSetEffect) String() string {
+	var s strings.Builder
+	s.WriteString("TileSetEffect:")
+
+	s.WriteString(fmt.Sprintf("Reserved0=%d", m.Reserved0))
+	s.WriteString(fmt.Sprintf(",Reserved1=%d", m.Reserved1))
+	s.WriteString(fmt.Sprintf(",Settings=%s", m.Settings))
+
+	return s.String()
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -259,6 +296,19 @@ func (m *TileSetState64) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
+func (m TileSetState64) String() string {
+	var s strings.Builder
+	s.WriteString("TileSetState64:")
+
+	s.WriteString(fmt.Sprintf("TileIndex=%d", m.TileIndex))
+	s.WriteString(fmt.Sprintf(",Length=%d", m.Length))
+	s.WriteString(fmt.Sprintf(",Rect=%s", m.Rect))
+	s.WriteString(fmt.Sprintf(",Duration=%d", m.Duration))
+	s.WriteString(fmt.Sprintf(",Colors=%s", m.Colors))
+
+	return s.String()
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 type TileSetUserPosition struct {
@@ -315,6 +365,18 @@ func (m *TileSetUserPosition) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
+func (m TileSetUserPosition) String() string {
+	var s strings.Builder
+	s.WriteString("TileSetUserPosition:")
+
+	s.WriteString(fmt.Sprintf("TileIndex=%d", m.TileIndex))
+
+	s.WriteString(fmt.Sprintf(",UserX=%f", m.UserX))
+	s.WriteString(fmt.Sprintf(",UserY=%f", m.UserY))
+
+	return s.String()
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 type TileState64 struct {
@@ -366,6 +428,17 @@ func (m *TileState64) UnmarshalBinary(data []byte) error {
 	}
 
 	return nil
+}
+
+func (m TileState64) String() string {
+	var s strings.Builder
+	s.WriteString("TileState64:")
+
+	s.WriteString(fmt.Sprintf("TileIndex=%d", m.TileIndex))
+	s.WriteString(fmt.Sprintf(",Rect=%s", m.Rect))
+	s.WriteString(fmt.Sprintf(",Colors=%s", m.Colors))
+
+	return s.String()
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -421,6 +494,17 @@ func (m *TileStateDeviceChain) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
+func (m TileStateDeviceChain) String() string {
+	var s strings.Builder
+	s.WriteString("TileStateDeviceChain:")
+
+	s.WriteString(fmt.Sprintf("StartIndex=%d", m.StartIndex))
+	s.WriteString(fmt.Sprintf(",TileDevices=%s", m.TileDevices))
+	s.WriteString(fmt.Sprintf(",TotalCount=%d", m.TotalCount))
+
+	return s.String()
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 type TileStateEffect struct {
@@ -469,4 +553,14 @@ func (m *TileStateEffect) UnmarshalBinary(data []byte) error {
 	}
 
 	return nil
+}
+
+func (m TileStateEffect) String() string {
+	var s strings.Builder
+	s.WriteString("TileStateEffect:")
+
+	s.WriteString(fmt.Sprintf("Reserved0=%d", m.Reserved0))
+	s.WriteString(fmt.Sprintf(",Settings=%s", m.Settings))
+
+	return s.String()
 }

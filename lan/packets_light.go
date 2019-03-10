@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
+	"strings"
 )
 
 // message types
@@ -46,6 +47,10 @@ func (m *LightGet) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
+func (m LightGet) String() string {
+	return "LightGet"
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 type LightGetInfrared struct{}
@@ -70,6 +75,10 @@ func (m *LightGetInfrared) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
+func (m LightGetInfrared) String() string {
+	return "LightGetInfrared"
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 type LightGetPower struct{}
@@ -92,6 +101,10 @@ func (m *LightGetPower) UnmarshalBinary(data []byte) error {
 	}
 
 	return nil
+}
+
+func (m LightGetPower) String() string {
+	return "LightGetPower"
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -147,6 +160,16 @@ func (m *LightSetColor) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
+func (m LightSetColor) String() string {
+	var s strings.Builder
+	s.WriteString("LightSetColor:")
+
+	s.WriteString(fmt.Sprintf("Color=%s", m.Color))
+	s.WriteString(fmt.Sprintf(",Duration=%d", m.Duration))
+
+	return s.String()
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 type LightSetInfrared struct {
@@ -192,6 +215,15 @@ func (m *LightSetInfrared) UnmarshalBinary(data []byte) error {
 	}
 
 	return nil
+}
+
+func (m LightSetInfrared) String() string {
+	var s strings.Builder
+	s.WriteString("LightSetInfrared:")
+
+	s.WriteString(fmt.Sprintf("Brightness=%d", m.Brightness))
+
+	return s.String()
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -242,6 +274,16 @@ func (m *LightSetPower) UnmarshalBinary(data []byte) error {
 	}
 
 	return nil
+}
+
+func (m LightSetPower) String() string {
+	var s strings.Builder
+	s.WriteString("LightSetPower:")
+
+	s.WriteString(fmt.Sprintf("Level=%d", m.Level))
+	s.WriteString(fmt.Sprintf(",Duration=%d", m.Duration))
+
+	return s.String()
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -307,6 +349,20 @@ func (m *LightSetWaveform) UnmarshalBinary(data []byte) error {
 	}
 
 	return nil
+}
+
+func (m LightSetWaveform) String() string {
+	var s strings.Builder
+	s.WriteString("LightSetWaveform:")
+
+	s.WriteString(fmt.Sprintf("Transient=%t", m.Transient))
+	s.WriteString(fmt.Sprintf(",Color=%s", m.Color))
+	s.WriteString(fmt.Sprintf(",Period=%d", m.Period))
+	s.WriteString(fmt.Sprintf(",Cycles=%f", m.Cycles))
+	s.WriteString(fmt.Sprintf(",SkewRatio=%d", m.SkewRatio))
+	s.WriteString(fmt.Sprintf(",Waveform=%s", m.Waveform))
+
+	return s.String()
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -386,6 +442,24 @@ func (m *LightSetWaveformOptional) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
+func (m LightSetWaveformOptional) String() string {
+	var s strings.Builder
+	s.WriteString("LightSetWaveformOptional:")
+
+	s.WriteString(fmt.Sprintf("Transient=%t", m.Transient))
+	s.WriteString(fmt.Sprintf(",Color=%s", m.Color))
+	s.WriteString(fmt.Sprintf(",Period=%d", m.Period))
+	s.WriteString(fmt.Sprintf(",Cycles=%f", m.Cycles))
+	s.WriteString(fmt.Sprintf(",SkewRatio=%d", m.SkewRatio))
+	s.WriteString(fmt.Sprintf(",Waveform=%s", m.Waveform))
+	s.WriteString(fmt.Sprintf(",SetHue=%t", m.SetHue))
+	s.WriteString(fmt.Sprintf(",SetSaturation=%t", m.SetSaturation))
+	s.WriteString(fmt.Sprintf(",SetBrightness=%t", m.SetBrightness))
+	s.WriteString(fmt.Sprintf(",SetKelvin=%t", m.SetKelvin))
+
+	return s.String()
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 type LightState struct {
@@ -445,6 +519,18 @@ func (m *LightState) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
+func (m LightState) String() string {
+	var s strings.Builder
+	s.WriteString("LightState:")
+
+	s.WriteString(fmt.Sprintf("Color=%s", m.Color))
+
+	s.WriteString(fmt.Sprintf(",Power=%d", m.Power))
+	s.WriteString(fmt.Sprintf(",Label=%s", m.Label))
+
+	return s.String()
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 type LightStateInfrared struct {
@@ -492,6 +578,15 @@ func (m *LightStateInfrared) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
+func (m LightStateInfrared) String() string {
+	var s strings.Builder
+	s.WriteString("LightStateInfrared:")
+
+	s.WriteString(fmt.Sprintf("Brightness=%d", m.Brightness))
+
+	return s.String()
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 type LightStatePower struct {
@@ -537,4 +632,13 @@ func (m *LightStatePower) UnmarshalBinary(data []byte) error {
 	}
 
 	return nil
+}
+
+func (m LightStatePower) String() string {
+	var s strings.Builder
+	s.WriteString("LightStatePower:")
+
+	s.WriteString(fmt.Sprintf("Level=%d", m.Level))
+
+	return s.String()
 }

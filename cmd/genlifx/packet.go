@@ -102,6 +102,25 @@ func (m *{{.Kind}}) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
+func (m {{.Kind}}) String() string {
+	{{if .Fields -}}
+	var s strings.Builder
+	s.WriteString("{{.Kind}}:")
+
+	{{$comma := false}}
+	{{- range .Fields}}
+	{{if .Name -}}
+		s.WriteString(fmt.Sprintf("{{if $comma}},{{end}}{{.Name}}={{formatchar .Type}}", m.{{.Name}}))
+		{{- $comma = true -}}
+	{{- end}}
+	{{- end}}
+
+	return s.String()
+	{{- else -}}
+	return "{{.Kind}}"
+	{{- end}}
+}
+
 {{end}}
 `
 
@@ -110,7 +129,7 @@ func genPackets(data map[string]map[string]packet) {
 	keys := map[string][]string{}
 	for name := range data {
 		generators[name] = NewGenerator("packets", name, packetTemplate)
-		generators[name].Printf("import (\n\t\"bytes\"\n\t\"encoding/binary\"\n\t\"fmt\"\n)\n\n")
+		generators[name].Printf("import (\n\t\"bytes\"\n\t\"encoding/binary\"\n\t\"fmt\"\n\t\"strings\"\n)\n\n")
 		for kind := range data[name] {
 			keys[name] = append(keys[name], kind)
 		}

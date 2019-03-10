@@ -23,6 +23,26 @@ type {{pascal .Name}} struct {
 	{{- end}}
 }
 
+func (f {{.Name}}) String() string {
+	{{if .Fields -}}
+	var s strings.Builder
+	s.WriteString("{{.Name}}:{")
+
+	{{$comma := false}}
+	{{- range .Fields}}
+	{{if .Name -}}
+		s.WriteString(fmt.Sprintf("{{if $comma}},{{end}}{{.Name}}={{formatchar .Type}}", f.{{.Name}}))
+		{{- $comma = true -}}
+	{{- end}}
+	{{- end}}
+	s.WriteString("}")
+
+	return s.String()
+	{{- else -}}
+	return "{{.Name}}"
+	{{- end}}
+}
+
 {{end}}
 `
 
@@ -62,6 +82,7 @@ func genFields(data map[string]field) {
 	}
 
 	src := NewGenerator("fields", "", fieldTemplate)
+	src.Printf("import (\n\t\"fmt\"\n\t\"strings\"\n)\n\n")
 
 	if err := src.WriteFile(fields); err != nil {
 		log.Fatalf("Unable to write fields.go:\n\t%s", err)

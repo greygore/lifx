@@ -8,6 +8,7 @@ type Payloader interface {
 	Type() uint16
 	MarshalBinary() ([]byte, error)
 	UnmarshalBinary([]byte) error
+	String() string
 }
 
 // Message is a LIFX LAN Protocol packet

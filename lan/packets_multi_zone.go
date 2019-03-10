@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
+	"strings"
 )
 
 // message types
@@ -43,6 +44,10 @@ func (m *MultiZoneExtendedGetColorZones) UnmarshalBinary(data []byte) error {
 	}
 
 	return nil
+}
+
+func (m MultiZoneExtendedGetColorZones) String() string {
+	return "MultiZoneExtendedGetColorZones"
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -104,6 +109,19 @@ func (m *MultiZoneExtendedSetColorZones) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
+func (m MultiZoneExtendedSetColorZones) String() string {
+	var s strings.Builder
+	s.WriteString("MultiZoneExtendedSetColorZones:")
+
+	s.WriteString(fmt.Sprintf("Duration=%d", m.Duration))
+	s.WriteString(fmt.Sprintf(",Apply=%s", m.Apply))
+	s.WriteString(fmt.Sprintf(",Index=%d", m.Index))
+	s.WriteString(fmt.Sprintf(",ColorsCount=%d", m.ColorsCount))
+	s.WriteString(fmt.Sprintf(",Colors=%s", m.Colors))
+
+	return s.String()
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 type MultiZoneExtendedStateMultiZone struct {
@@ -160,6 +178,18 @@ func (m *MultiZoneExtendedStateMultiZone) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
+func (m MultiZoneExtendedStateMultiZone) String() string {
+	var s strings.Builder
+	s.WriteString("MultiZoneExtendedStateMultiZone:")
+
+	s.WriteString(fmt.Sprintf("Count=%d", m.Count))
+	s.WriteString(fmt.Sprintf(",Index=%d", m.Index))
+	s.WriteString(fmt.Sprintf(",ColorsCount=%d", m.ColorsCount))
+	s.WriteString(fmt.Sprintf(",Colors=%s", m.Colors))
+
+	return s.String()
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 type MultiZoneGetColorZones struct {
@@ -210,6 +240,16 @@ func (m *MultiZoneGetColorZones) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
+func (m MultiZoneGetColorZones) String() string {
+	var s strings.Builder
+	s.WriteString("MultiZoneGetColorZones:")
+
+	s.WriteString(fmt.Sprintf("StartIndex=%d", m.StartIndex))
+	s.WriteString(fmt.Sprintf(",EndIndex=%d", m.EndIndex))
+
+	return s.String()
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 type MultiZoneGetEffect struct{}
@@ -232,6 +272,10 @@ func (m *MultiZoneGetEffect) UnmarshalBinary(data []byte) error {
 	}
 
 	return nil
+}
+
+func (m MultiZoneGetEffect) String() string {
+	return "MultiZoneGetEffect"
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -293,6 +337,19 @@ func (m *MultiZoneSetColorZones) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
+func (m MultiZoneSetColorZones) String() string {
+	var s strings.Builder
+	s.WriteString("MultiZoneSetColorZones:")
+
+	s.WriteString(fmt.Sprintf("StartIndex=%d", m.StartIndex))
+	s.WriteString(fmt.Sprintf(",EndIndex=%d", m.EndIndex))
+	s.WriteString(fmt.Sprintf(",Color=%s", m.Color))
+	s.WriteString(fmt.Sprintf(",Duration=%d", m.Duration))
+	s.WriteString(fmt.Sprintf(",Apply=%s", m.Apply))
+
+	return s.String()
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 type MultiZoneSetEffect struct {
@@ -340,6 +397,15 @@ func (m *MultiZoneSetEffect) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
+func (m MultiZoneSetEffect) String() string {
+	var s strings.Builder
+	s.WriteString("MultiZoneSetEffect:")
+
+	s.WriteString(fmt.Sprintf("Settings=%s", m.Settings))
+
+	return s.String()
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 type MultiZoneStateEffect struct {
@@ -385,6 +451,15 @@ func (m *MultiZoneStateEffect) UnmarshalBinary(data []byte) error {
 	}
 
 	return nil
+}
+
+func (m MultiZoneStateEffect) String() string {
+	var s strings.Builder
+	s.WriteString("MultiZoneStateEffect:")
+
+	s.WriteString(fmt.Sprintf("Settings=%s", m.Settings))
+
+	return s.String()
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -440,6 +515,17 @@ func (m *MultiZoneStateMultiZone) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
+func (m MultiZoneStateMultiZone) String() string {
+	var s strings.Builder
+	s.WriteString("MultiZoneStateMultiZone:")
+
+	s.WriteString(fmt.Sprintf("Count=%d", m.Count))
+	s.WriteString(fmt.Sprintf(",Index=%d", m.Index))
+	s.WriteString(fmt.Sprintf(",Color=%s", m.Color))
+
+	return s.String()
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 type MultiZoneStateZone struct {
@@ -491,4 +577,15 @@ func (m *MultiZoneStateZone) UnmarshalBinary(data []byte) error {
 	}
 
 	return nil
+}
+
+func (m MultiZoneStateZone) String() string {
+	var s strings.Builder
+	s.WriteString("MultiZoneStateZone:")
+
+	s.WriteString(fmt.Sprintf("Count=%d", m.Count))
+	s.WriteString(fmt.Sprintf(",Index=%d", m.Index))
+	s.WriteString(fmt.Sprintf(",Color=%s", m.Color))
+
+	return s.String()
 }
