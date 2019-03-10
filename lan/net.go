@@ -78,7 +78,11 @@ func Receive(port uint32) (host string, msg *Message, err error) {
 		return "", nil, err
 	}
 
-	if err := conn.SetReadDeadline(time.Now().Add(ReadTimeout)); err != nil {
+	var timeout time.Time
+	if ReadTimeout != 0 {
+		timeout = time.Now().Add(ReadTimeout)
+	}
+	if err := conn.SetReadDeadline(timeout); err != nil {
 		return "", nil, fmt.Errorf("unable to set read deadline: %s", err)
 	}
 
