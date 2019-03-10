@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
+	"strings"
 )
 
 // message types
@@ -64,6 +65,10 @@ func (m *DeviceAcknowledgement) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
+func (m DeviceAcknowledgement) String() string {
+	return "DeviceAcknowledgement"
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 type DeviceEchoRequest struct {
@@ -109,6 +114,15 @@ func (m *DeviceEchoRequest) UnmarshalBinary(data []byte) error {
 	}
 
 	return nil
+}
+
+func (m DeviceEchoRequest) String() string {
+	var s strings.Builder
+	s.WriteString("DeviceEchoRequest:")
+
+	s.WriteString(fmt.Sprintf("Payload=%s", m.Payload))
+
+	return s.String()
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -158,6 +172,15 @@ func (m *DeviceEchoResponse) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
+func (m DeviceEchoResponse) String() string {
+	var s strings.Builder
+	s.WriteString("DeviceEchoResponse:")
+
+	s.WriteString(fmt.Sprintf("Payload=%s", m.Payload))
+
+	return s.String()
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 type DeviceGetGroup struct{}
@@ -180,6 +203,10 @@ func (m *DeviceGetGroup) UnmarshalBinary(data []byte) error {
 	}
 
 	return nil
+}
+
+func (m DeviceGetGroup) String() string {
+	return "DeviceGetGroup"
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -206,6 +233,10 @@ func (m *DeviceGetHostFirmware) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
+func (m DeviceGetHostFirmware) String() string {
+	return "DeviceGetHostFirmware"
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 type DeviceGetHostInfo struct{}
@@ -228,6 +259,10 @@ func (m *DeviceGetHostInfo) UnmarshalBinary(data []byte) error {
 	}
 
 	return nil
+}
+
+func (m DeviceGetHostInfo) String() string {
+	return "DeviceGetHostInfo"
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -254,6 +289,10 @@ func (m *DeviceGetInfo) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
+func (m DeviceGetInfo) String() string {
+	return "DeviceGetInfo"
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 type DeviceGetLabel struct{}
@@ -276,6 +315,10 @@ func (m *DeviceGetLabel) UnmarshalBinary(data []byte) error {
 	}
 
 	return nil
+}
+
+func (m DeviceGetLabel) String() string {
+	return "DeviceGetLabel"
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -302,6 +345,10 @@ func (m *DeviceGetLocation) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
+func (m DeviceGetLocation) String() string {
+	return "DeviceGetLocation"
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 type DeviceGetPower struct{}
@@ -324,6 +371,10 @@ func (m *DeviceGetPower) UnmarshalBinary(data []byte) error {
 	}
 
 	return nil
+}
+
+func (m DeviceGetPower) String() string {
+	return "DeviceGetPower"
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -350,6 +401,10 @@ func (m *DeviceGetService) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
+func (m DeviceGetService) String() string {
+	return "DeviceGetService"
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 type DeviceGetVersion struct{}
@@ -372,6 +427,10 @@ func (m *DeviceGetVersion) UnmarshalBinary(data []byte) error {
 	}
 
 	return nil
+}
+
+func (m DeviceGetVersion) String() string {
+	return "DeviceGetVersion"
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -398,6 +457,10 @@ func (m *DeviceGetWifiFirmware) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
+func (m DeviceGetWifiFirmware) String() string {
+	return "DeviceGetWifiFirmware"
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 type DeviceGetWifiInfo struct{}
@@ -420,6 +483,10 @@ func (m *DeviceGetWifiInfo) UnmarshalBinary(data []byte) error {
 	}
 
 	return nil
+}
+
+func (m DeviceGetWifiInfo) String() string {
+	return "DeviceGetWifiInfo"
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -475,6 +542,17 @@ func (m *DeviceSetGroup) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
+func (m DeviceSetGroup) String() string {
+	var s strings.Builder
+	s.WriteString("DeviceSetGroup:")
+
+	s.WriteString(fmt.Sprintf("Group=%s", m.Group))
+	s.WriteString(fmt.Sprintf(",Label=%s", m.Label))
+	s.WriteString(fmt.Sprintf(",UpdatedAt=%d", m.UpdatedAt))
+
+	return s.String()
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 type DeviceSetLabel struct {
@@ -520,6 +598,15 @@ func (m *DeviceSetLabel) UnmarshalBinary(data []byte) error {
 	}
 
 	return nil
+}
+
+func (m DeviceSetLabel) String() string {
+	var s strings.Builder
+	s.WriteString("DeviceSetLabel:")
+
+	s.WriteString(fmt.Sprintf("Label=%s", m.Label))
+
+	return s.String()
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -575,6 +662,17 @@ func (m *DeviceSetLocation) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
+func (m DeviceSetLocation) String() string {
+	var s strings.Builder
+	s.WriteString("DeviceSetLocation:")
+
+	s.WriteString(fmt.Sprintf("Location=%s", m.Location))
+	s.WriteString(fmt.Sprintf(",Label=%s", m.Label))
+	s.WriteString(fmt.Sprintf(",UpdatedAt=%d", m.UpdatedAt))
+
+	return s.String()
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 type DeviceSetPower struct {
@@ -620,6 +718,15 @@ func (m *DeviceSetPower) UnmarshalBinary(data []byte) error {
 	}
 
 	return nil
+}
+
+func (m DeviceSetPower) String() string {
+	var s strings.Builder
+	s.WriteString("DeviceSetPower:")
+
+	s.WriteString(fmt.Sprintf("Level=%d", m.Level))
+
+	return s.String()
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -675,6 +782,17 @@ func (m *DeviceStateGroup) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
+func (m DeviceStateGroup) String() string {
+	var s strings.Builder
+	s.WriteString("DeviceStateGroup:")
+
+	s.WriteString(fmt.Sprintf("Group=%s", m.Group))
+	s.WriteString(fmt.Sprintf(",Label=%s", m.Label))
+	s.WriteString(fmt.Sprintf(",UpdatedAt=%d", m.UpdatedAt))
+
+	return s.String()
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 type DeviceStateHostFirmware struct {
@@ -726,6 +844,17 @@ func (m *DeviceStateHostFirmware) UnmarshalBinary(data []byte) error {
 	}
 
 	return nil
+}
+
+func (m DeviceStateHostFirmware) String() string {
+	var s strings.Builder
+	s.WriteString("DeviceStateHostFirmware:")
+
+	s.WriteString(fmt.Sprintf("Build=%d", m.Build))
+
+	s.WriteString(fmt.Sprintf(",Version=%d", m.Version))
+
+	return s.String()
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -784,6 +913,17 @@ func (m *DeviceStateHostInfo) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
+func (m DeviceStateHostInfo) String() string {
+	var s strings.Builder
+	s.WriteString("DeviceStateHostInfo:")
+
+	s.WriteString(fmt.Sprintf("Signal=%f", m.Signal))
+	s.WriteString(fmt.Sprintf(",Tx=%d", m.Tx))
+	s.WriteString(fmt.Sprintf(",Rx=%d", m.Rx))
+
+	return s.String()
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 type DeviceStateInfo struct {
@@ -837,6 +977,17 @@ func (m *DeviceStateInfo) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
+func (m DeviceStateInfo) String() string {
+	var s strings.Builder
+	s.WriteString("DeviceStateInfo:")
+
+	s.WriteString(fmt.Sprintf("Time=%d", m.Time))
+	s.WriteString(fmt.Sprintf(",Uptime=%d", m.Uptime))
+	s.WriteString(fmt.Sprintf(",Downtime=%d", m.Downtime))
+
+	return s.String()
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 type DeviceStateLabel struct {
@@ -882,6 +1033,15 @@ func (m *DeviceStateLabel) UnmarshalBinary(data []byte) error {
 	}
 
 	return nil
+}
+
+func (m DeviceStateLabel) String() string {
+	var s strings.Builder
+	s.WriteString("DeviceStateLabel:")
+
+	s.WriteString(fmt.Sprintf("Label=%s", m.Label))
+
+	return s.String()
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -937,6 +1097,17 @@ func (m *DeviceStateLocation) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
+func (m DeviceStateLocation) String() string {
+	var s strings.Builder
+	s.WriteString("DeviceStateLocation:")
+
+	s.WriteString(fmt.Sprintf("Location=%s", m.Location))
+	s.WriteString(fmt.Sprintf(",Label=%s", m.Label))
+	s.WriteString(fmt.Sprintf(",UpdatedAt=%d", m.UpdatedAt))
+
+	return s.String()
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 type DeviceStatePower struct {
@@ -982,6 +1153,15 @@ func (m *DeviceStatePower) UnmarshalBinary(data []byte) error {
 	}
 
 	return nil
+}
+
+func (m DeviceStatePower) String() string {
+	var s strings.Builder
+	s.WriteString("DeviceStatePower:")
+
+	s.WriteString(fmt.Sprintf("Level=%d", m.Level))
+
+	return s.String()
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1032,6 +1212,16 @@ func (m *DeviceStateService) UnmarshalBinary(data []byte) error {
 	}
 
 	return nil
+}
+
+func (m DeviceStateService) String() string {
+	var s strings.Builder
+	s.WriteString("DeviceStateService:")
+
+	s.WriteString(fmt.Sprintf("Service=%s", m.Service))
+	s.WriteString(fmt.Sprintf(",Port=%d", m.Port))
+
+	return s.String()
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1087,6 +1277,17 @@ func (m *DeviceStateVersion) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
+func (m DeviceStateVersion) String() string {
+	var s strings.Builder
+	s.WriteString("DeviceStateVersion:")
+
+	s.WriteString(fmt.Sprintf("Vendor=%d", m.Vendor))
+	s.WriteString(fmt.Sprintf(",Product=%d", m.Product))
+	s.WriteString(fmt.Sprintf(",Version=%d", m.Version))
+
+	return s.String()
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 type DeviceStateWifiFirmware struct {
@@ -1138,6 +1339,17 @@ func (m *DeviceStateWifiFirmware) UnmarshalBinary(data []byte) error {
 	}
 
 	return nil
+}
+
+func (m DeviceStateWifiFirmware) String() string {
+	var s strings.Builder
+	s.WriteString("DeviceStateWifiFirmware:")
+
+	s.WriteString(fmt.Sprintf("Build=%d", m.Build))
+
+	s.WriteString(fmt.Sprintf(",Version=%d", m.Version))
+
+	return s.String()
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1194,4 +1406,15 @@ func (m *DeviceStateWifiInfo) UnmarshalBinary(data []byte) error {
 	}
 
 	return nil
+}
+
+func (m DeviceStateWifiInfo) String() string {
+	var s strings.Builder
+	s.WriteString("DeviceStateWifiInfo:")
+
+	s.WriteString(fmt.Sprintf("Signal=%f", m.Signal))
+	s.WriteString(fmt.Sprintf(",Tx=%d", m.Tx))
+	s.WriteString(fmt.Sprintf(",Rx=%d", m.Rx))
+
+	return s.String()
 }

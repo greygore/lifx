@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"regexp"
 	"sort"
 )
 
@@ -39,10 +38,6 @@ func (e {{pascal .Name}}) String() string {
 
 {{end}}
 `
-
-var (
-	enumRegex = regexp.MustCompile(`^(\[[1-9][0-9]*\])?<([A-Za-z0-9]+)>$`)
-)
 
 func genEnums(data map[string]enum) {
 	var keys []string

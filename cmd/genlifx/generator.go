@@ -7,6 +7,7 @@ import (
 	"html/template"
 	"io/ioutil"
 	"log"
+	"regexp"
 
 	"github.com/codemodus/kace"
 )
@@ -25,7 +26,8 @@ func NewGenerator(name, kind, tmpl string) *Generator {
 	g := Generator{Name: name, Kind: kind}
 
 	funcMap := template.FuncMap{
-		"pascal": kace.Pascal,
+		"pascal":     kace.Pascal,
+		"formatchar": formatChar,
 	}
 	var err error
 	g.tmpl, err = template.New("").Funcs(funcMap).Parse(tmpl)
@@ -67,4 +69,27 @@ func (g Generator) WriteFile(data interface{}) error {
 
 	log.Printf("Wrote %s", filename)
 	return nil
+}
+
+var (
+	enumRegex  = regexp.MustCompile(`^(\[[1-9][0-9]*\])?<([A-Za-z0-9]+)>$`)
+	intRegex   = regexp.MustCompile(`^u?int(8|16|32|64)$`)
+	floatRegex = regexp.MustCompile(`^float(32|64)$`)
+	bytesRegex = regexp.MustCompile(`^\[[0-9]+\]byte$`)
+)
+
+func formatChar(s string) string {
+	if s == "bool" {
+		return "%t"
+	}
+	if intRegex.MatchString(s) {
+		return "%d"
+	}
+	if floatRegex.MatchString(s) {
+		return "%f"
+	}
+	if bytesRegex.MatchString(s) {
+		return "%s"
+	}
+	return "%s"
 }
