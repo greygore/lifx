@@ -3,6 +3,7 @@ package lan
 import (
 	"fmt"
 	"net"
+	"sync"
 	"time"
 )
 
@@ -17,11 +18,15 @@ var (
 	// By default (0), reads will block forever
 	ReadTimeout time.Duration
 
+	mu    sync.RWMutex // protects conns
 	conns map[uint32]net.PacketConn
 )
 
 // Conn returns a cached UDP connection for a given port
 func Conn(port uint32) (net.PacketConn, error) {
+	mu.Lock()
+	defer mu.Unlock()
+
 	if conns == nil {
 		conns = make(map[uint32]net.PacketConn)
 	}
