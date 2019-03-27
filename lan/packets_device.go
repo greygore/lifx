@@ -796,9 +796,10 @@ func (m DeviceStateGroup) String() string {
 /////////////////////////////////////////////////////////////////////////////
 
 type DeviceStateHostFirmware struct {
-	Build     uint64
-	Reserved1 [8]byte
-	Version   uint32
+	Build        uint64
+	Reserved1    [8]byte
+	VersionMinor uint16
+	VersionMajor uint16
 }
 
 func (m DeviceStateHostFirmware) Size() uint16 {
@@ -815,7 +816,8 @@ func (m DeviceStateHostFirmware) MarshalBinary() ([]byte, error) {
 	data := []interface{}{
 		m.Build,
 		m.Reserved1,
-		m.Version,
+		m.VersionMinor,
+		m.VersionMajor,
 	}
 	for _, d := range data {
 		if err := binary.Write(b, endian, d); err != nil {
@@ -835,7 +837,8 @@ func (m *DeviceStateHostFirmware) UnmarshalBinary(data []byte) error {
 	vars := []interface{}{
 		&m.Build,
 		&m.Reserved1,
-		&m.Version,
+		&m.VersionMinor,
+		&m.VersionMajor,
 	}
 	for _, v := range vars {
 		if err := binary.Read(b, endian, v); err != nil {
@@ -852,7 +855,8 @@ func (m DeviceStateHostFirmware) String() string {
 
 	s.WriteString(fmt.Sprintf("Build=%d", m.Build))
 
-	s.WriteString(fmt.Sprintf(",Version=%d", m.Version))
+	s.WriteString(fmt.Sprintf(",VersionMinor=%d", m.VersionMinor))
+	s.WriteString(fmt.Sprintf(",VersionMajor=%d", m.VersionMajor))
 
 	return s.String()
 }
@@ -1291,9 +1295,10 @@ func (m DeviceStateVersion) String() string {
 /////////////////////////////////////////////////////////////////////////////
 
 type DeviceStateWifiFirmware struct {
-	Build     uint64
-	Reserved1 [8]byte
-	Version   uint32
+	Build        uint64
+	Reserved1    [8]byte
+	VersionMinor uint16
+	VersionMajor uint16
 }
 
 func (m DeviceStateWifiFirmware) Size() uint16 {
@@ -1310,7 +1315,8 @@ func (m DeviceStateWifiFirmware) MarshalBinary() ([]byte, error) {
 	data := []interface{}{
 		m.Build,
 		m.Reserved1,
-		m.Version,
+		m.VersionMinor,
+		m.VersionMajor,
 	}
 	for _, d := range data {
 		if err := binary.Write(b, endian, d); err != nil {
@@ -1330,7 +1336,8 @@ func (m *DeviceStateWifiFirmware) UnmarshalBinary(data []byte) error {
 	vars := []interface{}{
 		&m.Build,
 		&m.Reserved1,
-		&m.Version,
+		&m.VersionMinor,
+		&m.VersionMajor,
 	}
 	for _, v := range vars {
 		if err := binary.Read(b, endian, v); err != nil {
@@ -1347,7 +1354,8 @@ func (m DeviceStateWifiFirmware) String() string {
 
 	s.WriteString(fmt.Sprintf("Build=%d", m.Build))
 
-	s.WriteString(fmt.Sprintf(",Version=%d", m.Version))
+	s.WriteString(fmt.Sprintf(",VersionMinor=%d", m.VersionMinor))
+	s.WriteString(fmt.Sprintf(",VersionMajor=%d", m.VersionMajor))
 
 	return s.String()
 }

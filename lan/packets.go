@@ -107,16 +107,16 @@ func PayloadByType(payloadType uint16) (Payloader, error) {
 		return &MultiZoneStateMultiZone{}, nil
 	case MultiZoneStateZoneType:
 		return &MultiZoneStateZone{}, nil
+	case TileGet64Type:
+		return &TileGet64{}, nil
 	case TileGetDeviceChainType:
 		return &TileGetDeviceChain{}, nil
 	case TileGetEffectType:
 		return &TileGetEffect{}, nil
-	case TileGetState64Type:
-		return &TileGetState64{}, nil
+	case TileSet64Type:
+		return &TileSet64{}, nil
 	case TileSetEffectType:
 		return &TileSetEffect{}, nil
-	case TileSetState64Type:
-		return &TileSetState64{}, nil
 	case TileSetUserPositionType:
 		return &TileSetUserPosition{}, nil
 	case TileState64Type:

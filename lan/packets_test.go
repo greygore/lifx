@@ -54,9 +54,9 @@ func TestPacketStringers(t *testing.T) {
 		{
 			Name: "Array of embedded fields",
 			Payload: &lan.MultiZoneStateMultiZone{
-				Count: 3,
-				Index: 1,
-				Color: [8]lan.LightHsbk{c1, c2, c1, c2, c1, c2, c1, c2},
+				Count:  3,
+				Index:  1,
+				Colors: [8]lan.LightHsbk{c1, c2, c1, c2, c1, c2, c1, c2},
 			},
 			Expected: "MultiZoneStateMultiZone:Count=3,Index=1,Color=[LightHsbk:{Hue=21845,Saturation=65535,Brightness=65535,Kelvin=3500} LightHsbk:{Hue=21845,Saturation=65535,Brightness=0,Kelvin=3500} LightHsbk:{Hue=21845,Saturation=65535,Brightness=65535,Kelvin=3500} LightHsbk:{Hue=21845,Saturation=65535,Brightness=0,Kelvin=3500} LightHsbk:{Hue=21845,Saturation=65535,Brightness=65535,Kelvin=3500} LightHsbk:{Hue=21845,Saturation=65535,Brightness=0,Kelvin=3500} LightHsbk:{Hue=21845,Saturation=65535,Brightness=65535,Kelvin=3500} LightHsbk:{Hue=21845,Saturation=65535,Brightness=0,Kelvin=3500}]",
 		},

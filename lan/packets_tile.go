@@ -10,16 +10,80 @@ import (
 
 // message types
 const (
+	TileGet64Type            = 707
 	TileGetDeviceChainType   = 701
 	TileGetEffectType        = 718
-	TileGetState64Type       = 707
+	TileSet64Type            = 715
 	TileSetEffectType        = 719
-	TileSetState64Type       = 715
 	TileSetUserPositionType  = 703
 	TileState64Type          = 711
 	TileStateDeviceChainType = 702
 	TileStateEffectType      = 720
 )
+
+/////////////////////////////////////////////////////////////////////////////
+
+type TileGet64 struct {
+	TileIndex uint8
+	Length    uint8
+	Rect      TileBufferRect
+}
+
+func (m TileGet64) Size() uint16 {
+	return 6
+}
+
+func (m TileGet64) Type() uint16 {
+	return TileGet64Type
+}
+
+func (m TileGet64) MarshalBinary() ([]byte, error) {
+	b := &bytes.Buffer{}
+
+	data := []interface{}{
+		m.TileIndex,
+		m.Length,
+		m.Rect,
+	}
+	for _, d := range data {
+		if err := binary.Write(b, endian, d); err != nil {
+			return nil, err
+		}
+	}
+
+	return b.Bytes(), nil
+}
+
+func (m *TileGet64) UnmarshalBinary(data []byte) error {
+	if int(m.Size()) != len(data) {
+		return fmt.Errorf("expected %d bytes, got %d", m.Size(), len(data))
+	}
+
+	b := bytes.NewBuffer(data)
+	vars := []interface{}{
+		&m.TileIndex,
+		&m.Length,
+		&m.Rect,
+	}
+	for _, v := range vars {
+		if err := binary.Read(b, endian, v); err != nil {
+			return fmt.Errorf("unable to read packet: %s", err)
+		}
+	}
+
+	return nil
+}
+
+func (m TileGet64) String() string {
+	var s strings.Builder
+	s.WriteString("TileGet64:")
+
+	s.WriteString(fmt.Sprintf("TileIndex=%d", m.TileIndex))
+	s.WriteString(fmt.Sprintf(",Length=%d", m.Length))
+	s.WriteString(fmt.Sprintf(",Rect=%s", m.Rect))
+
+	return s.String()
+}
 
 /////////////////////////////////////////////////////////////////////////////
 
@@ -111,27 +175,31 @@ func (m TileGetEffect) String() string {
 
 /////////////////////////////////////////////////////////////////////////////
 
-type TileGetState64 struct {
+type TileSet64 struct {
 	TileIndex uint8
 	Length    uint8
 	Rect      TileBufferRect
+	Duration  uint32
+	Colors    [64]LightHsbk
 }
 
-func (m TileGetState64) Size() uint16 {
-	return 6
+func (m TileSet64) Size() uint16 {
+	return 522
 }
 
-func (m TileGetState64) Type() uint16 {
-	return TileGetState64Type
+func (m TileSet64) Type() uint16 {
+	return TileSet64Type
 }
 
-func (m TileGetState64) MarshalBinary() ([]byte, error) {
+func (m TileSet64) MarshalBinary() ([]byte, error) {
 	b := &bytes.Buffer{}
 
 	data := []interface{}{
 		m.TileIndex,
 		m.Length,
 		m.Rect,
+		m.Duration,
+		m.Colors,
 	}
 	for _, d := range data {
 		if err := binary.Write(b, endian, d); err != nil {
@@ -142,7 +210,7 @@ func (m TileGetState64) MarshalBinary() ([]byte, error) {
 	return b.Bytes(), nil
 }
 
-func (m *TileGetState64) UnmarshalBinary(data []byte) error {
+func (m *TileSet64) UnmarshalBinary(data []byte) error {
 	if int(m.Size()) != len(data) {
 		return fmt.Errorf("expected %d bytes, got %d", m.Size(), len(data))
 	}
@@ -152,6 +220,8 @@ func (m *TileGetState64) UnmarshalBinary(data []byte) error {
 		&m.TileIndex,
 		&m.Length,
 		&m.Rect,
+		&m.Duration,
+		&m.Colors,
 	}
 	for _, v := range vars {
 		if err := binary.Read(b, endian, v); err != nil {
@@ -162,13 +232,15 @@ func (m *TileGetState64) UnmarshalBinary(data []byte) error {
 	return nil
 }
 
-func (m TileGetState64) String() string {
+func (m TileSet64) String() string {
 	var s strings.Builder
-	s.WriteString("TileGetState64:")
+	s.WriteString("TileSet64:")
 
 	s.WriteString(fmt.Sprintf("TileIndex=%d", m.TileIndex))
 	s.WriteString(fmt.Sprintf(",Length=%d", m.Length))
 	s.WriteString(fmt.Sprintf(",Rect=%s", m.Rect))
+	s.WriteString(fmt.Sprintf(",Duration=%d", m.Duration))
+	s.WriteString(fmt.Sprintf(",Colors=%s", m.Colors))
 
 	return s.String()
 }
@@ -233,78 +305,6 @@ func (m TileSetEffect) String() string {
 	s.WriteString(fmt.Sprintf("Reserved0=%d", m.Reserved0))
 	s.WriteString(fmt.Sprintf(",Reserved1=%d", m.Reserved1))
 	s.WriteString(fmt.Sprintf(",Settings=%s", m.Settings))
-
-	return s.String()
-}
-
-/////////////////////////////////////////////////////////////////////////////
-
-type TileSetState64 struct {
-	TileIndex uint8
-	Length    uint8
-	Rect      TileBufferRect
-	Duration  uint32
-	Colors    [64]LightHsbk
-}
-
-func (m TileSetState64) Size() uint16 {
-	return 522
-}
-
-func (m TileSetState64) Type() uint16 {
-	return TileSetState64Type
-}
-
-func (m TileSetState64) MarshalBinary() ([]byte, error) {
-	b := &bytes.Buffer{}
-
-	data := []interface{}{
-		m.TileIndex,
-		m.Length,
-		m.Rect,
-		m.Duration,
-		m.Colors,
-	}
-	for _, d := range data {
-		if err := binary.Write(b, endian, d); err != nil {
-			return nil, err
-		}
-	}
-
-	return b.Bytes(), nil
-}
-
-func (m *TileSetState64) UnmarshalBinary(data []byte) error {
-	if int(m.Size()) != len(data) {
-		return fmt.Errorf("expected %d bytes, got %d", m.Size(), len(data))
-	}
-
-	b := bytes.NewBuffer(data)
-	vars := []interface{}{
-		&m.TileIndex,
-		&m.Length,
-		&m.Rect,
-		&m.Duration,
-		&m.Colors,
-	}
-	for _, v := range vars {
-		if err := binary.Read(b, endian, v); err != nil {
-			return fmt.Errorf("unable to read packet: %s", err)
-		}
-	}
-
-	return nil
-}
-
-func (m TileSetState64) String() string {
-	var s strings.Builder
-	s.WriteString("TileSetState64:")
-
-	s.WriteString(fmt.Sprintf("TileIndex=%d", m.TileIndex))
-	s.WriteString(fmt.Sprintf(",Length=%d", m.Length))
-	s.WriteString(fmt.Sprintf(",Rect=%s", m.Rect))
-	s.WriteString(fmt.Sprintf(",Duration=%d", m.Duration))
-	s.WriteString(fmt.Sprintf(",Colors=%s", m.Colors))
 
 	return s.String()
 }
@@ -444,9 +444,9 @@ func (m TileState64) String() string {
 /////////////////////////////////////////////////////////////////////////////
 
 type TileStateDeviceChain struct {
-	StartIndex  uint8
-	TileDevices [16]TileStateDevice
-	TotalCount  uint8
+	StartIndex       uint8
+	TileDevices      [16]TileStateDevice
+	TileDevicesCount uint8
 }
 
 func (m TileStateDeviceChain) Size() uint16 {
@@ -463,7 +463,7 @@ func (m TileStateDeviceChain) MarshalBinary() ([]byte, error) {
 	data := []interface{}{
 		m.StartIndex,
 		m.TileDevices,
-		m.TotalCount,
+		m.TileDevicesCount,
 	}
 	for _, d := range data {
 		if err := binary.Write(b, endian, d); err != nil {
@@ -483,7 +483,7 @@ func (m *TileStateDeviceChain) UnmarshalBinary(data []byte) error {
 	vars := []interface{}{
 		&m.StartIndex,
 		&m.TileDevices,
-		&m.TotalCount,
+		&m.TileDevicesCount,
 	}
 	for _, v := range vars {
 		if err := binary.Read(b, endian, v); err != nil {
@@ -500,7 +500,7 @@ func (m TileStateDeviceChain) String() string {
 
 	s.WriteString(fmt.Sprintf("StartIndex=%d", m.StartIndex))
 	s.WriteString(fmt.Sprintf(",TileDevices=%s", m.TileDevices))
-	s.WriteString(fmt.Sprintf(",TotalCount=%d", m.TotalCount))
+	s.WriteString(fmt.Sprintf(",TileDevicesCount=%d", m.TileDevicesCount))
 
 	return s.String()
 }

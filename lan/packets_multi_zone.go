@@ -465,9 +465,9 @@ func (m MultiZoneStateEffect) String() string {
 /////////////////////////////////////////////////////////////////////////////
 
 type MultiZoneStateMultiZone struct {
-	Count uint8
-	Index uint8
-	Color [8]LightHsbk
+	Count  uint8
+	Index  uint8
+	Colors [8]LightHsbk
 }
 
 func (m MultiZoneStateMultiZone) Size() uint16 {
@@ -484,7 +484,7 @@ func (m MultiZoneStateMultiZone) MarshalBinary() ([]byte, error) {
 	data := []interface{}{
 		m.Count,
 		m.Index,
-		m.Color,
+		m.Colors,
 	}
 	for _, d := range data {
 		if err := binary.Write(b, endian, d); err != nil {
@@ -504,7 +504,7 @@ func (m *MultiZoneStateMultiZone) UnmarshalBinary(data []byte) error {
 	vars := []interface{}{
 		&m.Count,
 		&m.Index,
-		&m.Color,
+		&m.Colors,
 	}
 	for _, v := range vars {
 		if err := binary.Read(b, endian, v); err != nil {
@@ -521,7 +521,7 @@ func (m MultiZoneStateMultiZone) String() string {
 
 	s.WriteString(fmt.Sprintf("Count=%d", m.Count))
 	s.WriteString(fmt.Sprintf(",Index=%d", m.Index))
-	s.WriteString(fmt.Sprintf(",Color=%s", m.Color))
+	s.WriteString(fmt.Sprintf(",Colors=%s", m.Colors))
 
 	return s.String()
 }
